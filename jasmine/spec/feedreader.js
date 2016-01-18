@@ -98,16 +98,25 @@ $(function() {
            var entry = $('.feed .entry')[0];
            expect(entry).toBeGreaterThan('');
          });
-         
+
     });
     /* TODO: Write a new test suite named "New Feed Selection"*/
     describe('New Feed Selection', function(){
-
 
         /* TODO: Write a test that ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
+         var firstPass;
 
+         beforeEach(function(done) {
+           loadFeed(0, function() {
+             firstPass = $('.feed .entry')[0];
+             loadFeed(1, done);
+           });
+         });
+         it('should change the content for the subsequent entries', function(){
+           expect($('.feed .entry')[1]).not.toBe(firstPass);
+         });
     });
 }());
