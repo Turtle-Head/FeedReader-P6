@@ -54,7 +54,7 @@ $(function() {
 
     /* TODO: Write a new test suite named "The menu" */
     describe('The Menu', function(){
-      
+
         /* TODO: Write a test that ensures the menu element is
          * hidden by default. You'll have to analyze the HTML and
          * the CSS to determine how we're performing the
@@ -76,7 +76,14 @@ $(function() {
               expect(document.getElementsByTagName('body')[0].className).toBe('menu-hidden');
           });
 
-    });
+          /* TODO Write a test that compares number of menu items to the number of items in the
+           * allFeeds array, the number of items shold be the same
+           */
+           it('should have a menu item for each item in the allFeeds array', function(){
+               expect($('.feed-list li').length).toBe(allFeeds.length);
+           });
+
+        });
     /* TODO: Write a new test suite named "Initial Entries" */
     describe('Initial Entries', function(){
 
