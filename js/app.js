@@ -41,8 +41,10 @@ function init() {
  * which will be called after everything has run successfully.
  */
  function loadFeed(id, cb) {
+     var self = this;
      var feedUrl = allFeeds[id].url,
          feedName = allFeeds[id].name;
+     self.completed = false;
 
      $.ajax({
        type: "POST",
@@ -67,9 +69,10 @@ function init() {
                   */
                  entries.forEach(function(entry) {
                      container.append(entryTemplate(entry));
+                     self.completed = true;
                  });
 
-                 if (cb) {
+                 if (cb && this.completed) {
                      cb();
                  }
                },
