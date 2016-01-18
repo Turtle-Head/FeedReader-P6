@@ -72,7 +72,7 @@ function init() {
                      self.completed = true;
                  });
 
-                 if (cb && this.completed) {
+                 if (cb && self.completed) {
                      cb();
                  }
                },
