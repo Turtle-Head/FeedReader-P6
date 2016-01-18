@@ -61,6 +61,7 @@ $(function() {
          * hiding/showing of the menu element.
          */
          it('should be hidden by default', function(){
+           /* When the menu is hidden the body has a class of menu-hidden, when it is visible the class is toggled off */
             expect(document.getElementsByTagName('body')[0].className).toBe('menu-hidden');
          });
 
@@ -70,9 +71,13 @@ $(function() {
           * clicked and does it hide when clicked again.
           */
           it('should show when menu button is clicked and hide when clicked again', function(){
+              /* Trigger Menu button */
               $('.menu-icon-link').trigger('click');
+              /* Checks if the menu is visible */
               expect(document.getElementsByTagName('body')[0].className).toBe('');
+              /* Trigger Menu Button a second time */
               $('.menu-icon-link').trigger('click');
+              /* Check to see if menu is hidden */
               expect(document.getElementsByTagName('body')[0].className).toBe('menu-hidden');
           });
 
@@ -114,15 +119,21 @@ $(function() {
          * Remember, loadFeed() is asynchronous.
          */
          var firstPass;
-
+         var secondPass;
          beforeEach(function(done) {
            loadFeed(0, function() {
+             /* Capture initial feed */
              firstPass = $('.feed .entry')[0];
-             loadFeed(1, done);
+             /* Load secondary feed */
+             loadFeed(1);
+             /* Capture secondary feed */
+             secondPass = $('.feed .entry')[1];
+             /* Resets initial feed loaded to index 0 */
+             loadFeed(0, done);
            });
          });
          it('should change the content for the subsequent entries', function(){
-           expect($('.feed .entry')[1]).not.toBe(firstPass);
+           expect(secondPass).not.toBe(firstPass);
          });
     });
 }());
