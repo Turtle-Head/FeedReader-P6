@@ -59,9 +59,7 @@ $(function() {
     // Tests for elements in the feed container after loadFeed finishes
     // Test is for an async function
     beforeEach(function(done){
-      loadFeed(0, function() {
-        done();
-      });
+      loadFeed(0, done);
     });
     // Feed container must contain more than one entry
     it('should have at least a single entry element within the .feed container', function(){
@@ -80,27 +78,25 @@ $(function() {
 
     // Run the async function 3 times, once to get val 1, once to get val 2 and once to reset content loaded to initial values
     beforeEach(function(done) {
-      // Load initial feed
-      loadFeed(0, function() {
-        // Capture initial feed
-        firstFeed = $('.feed .entry');
-        // Load secondary feed
-        loadFeed(1, function(){
-          // Capture secondary feed
-          secondFeed = $('.feed .entry');
-          // Resets initial feed loaded to index 0
-          loadFeed(0, done);
+      // Load secondary feed
+      loadFeed(1, function() {
+        // Capture secondary feed
+        secondFeed = $('.feed .entry');
+        // Load first feed
+        loadFeed(0, function(){
+          // Capture first feed
+          firstFeed = $('.feed .entry');
+          done();
         });
       });
     });
 
     // Checks content in the entries containers ensuring content changes
-    it('should change the content for the subsequent entries', function() {
-      expect(secondFeed).not.toBe(firstFeed);
-      expect(secondFeed[0]).not.toBe(firstFeed[0]);
+    it('should change the content for the subsequent feeds', function() {
+      expect(secondFeed[0].innerText).not.toEqual(firstFeed[0].innerText);
     });
     it('should use different content for entries in the same feed', function() {
-      expect(firstFeed[0]).not.toBe(firstFeed[1]);
+      expect(firstFeed[0].innerText).not.toEqual(firstFeed[1].innerText);
     });
   });
 

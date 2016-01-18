@@ -48,6 +48,7 @@ the number of items should be the same
 
 ## Tests for New Feed Selection
 
--   Check for content change when loading the new feeds
+### Check for content change when loading the new feeds
+
 -   Checks for content changes changes between first and second feed
 -   Checks for changes to the content within the feed entries
