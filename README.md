@@ -52,3 +52,4 @@ the number of items should be the same
 
 -   Checks for content changes changes between first and second feed
 -   Checks for changes to the content within the feed entries
+-   Checks for blank entries
