@@ -118,22 +118,28 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
-         var firstPass;
-         var secondPass;
+         var firstPass,
+             secondPass;
+
          beforeEach(function(done) {
            loadFeed(0, function() {
              /* Capture initial feed */
-             firstPass = $('.feed .entry')[0];
+             firstPass = $('.feed .entry');
              /* Load secondary feed */
-             loadFeed(1);
-             /* Capture secondary feed */
-             secondPass = $('.feed .entry')[1];
-             /* Resets initial feed loaded to index 0 */
-             loadFeed(0, done);
+             loadFeed(1, function(){
+               /* Capture secondary feed */
+               secondPass = $('.feed .entry');
+               /* Resets initial feed loaded to index 0 */
+               loadFeed(0, done);
+             });
            });
          });
-         it('should change the content for the subsequent entries', function(){
+         /* Checks content in the entries containers ensuring content changes */
+         it('should change the content for the subsequent entries', function() {
            expect(secondPass).not.toBe(firstPass);
+           expect(firstPass[0]).not.toBe(firstPass[1]);
+           expect(secondPass[0]).not.toBe(firstPass[0]);
          });
+
     });
 }());
