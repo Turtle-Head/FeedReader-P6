@@ -82,35 +82,24 @@ $(function() {
       // Load secondary feed
       loadFeed(1, function() {
         // Capture secondary feed
-        secondFeed = $('.feed .entry');
-        console.log('2nd');
-        console.log(secondFeed);
+        secondFeed = $('.feed .entry').text();
         // Load first feed
         loadFeed(0, function(){
           // Capture first feed
-          firstFeed = $('.feed .entry');
-          console.log('1st');
-          console.log(firstFeed);
+          firstFeed = $('.feed .entry').text();
           done();
         });
       });
     });
 
     // Checks content in the entries containers ensuring content changes
-    // firstFeed and secondFeed are both objects and must be accessed using object
-    // notation jQuery fails using the .text() module to access these properties
-    // if you doubt me please by all means experiment, my tests do functionally test
-    // the information recieved from the feeds in a manner that gets actual values
     it('should change the content for the subsequent feeds', function() {
-      expect(secondFeed[0].textContent).not.toEqual(firstFeed[0].textContent);
+      expect(secondFeed).not.toEqual(firstFeed);
     });
-    it('should use different content for entries in the same feed', function() {
-      expect(firstFeed[0].textContent).not.toBe(firstFeed[1].textContent);
-    });
-    it('should have something in the entry', function(){
-      for (var x = 0; x < firstFeed.length; x++) {
-        expect(firstFeed[x].textContent).not.toBe('');
-      }
+    // Checks for empty feeds
+    it('should have something in the feed', function() {
+      expect(firstFeed).not.toEqual('');
+      expect(secondFeed).not.toEqual('');
     });
   });
 
