@@ -9,8 +9,8 @@
 // The names and URLs to all of the feeds we'd like available.
 var allFeeds = [
     {
-        name: 'Udacity Blog',
-        url: 'http://blog.udacity.com/feed'
+        name: 'LinkedIn Jobs',
+        url: 'https://www.linkedin.com/jobs/'
     }, {
         name: 'CSS Tricks',
         url: 'http://css-tricks.com/feed'
@@ -24,7 +24,7 @@ var allFeeds = [
 ];
 
 /* This function starts up our application. The Google Feed
- * Reader API is loaded asynchonously and will then call this
+ * Reader API is loaded asynchronously and will then call this
  * function when the API is loaded.
  */
 function init() {
