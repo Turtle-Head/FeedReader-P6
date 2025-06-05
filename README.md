@@ -52,3 +52,7 @@ the number of items should be the same
 
 -   Checks for content changes changes between first and second feed
 -   Checks for blank entries
+
+### June 5,2025
+-    Refactored Feedreader to work functionally using React.js as the foundational element
+
