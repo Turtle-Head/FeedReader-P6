@@ -146,6 +146,90 @@ function App() {
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+
     </script>
+    <!-- Add this to your index.html, after your React app code, inside <body> -->
+    <!-- filepath: /home/jecture/Documents/GitHub/FeedReader-P6/index.html -->
+    <div id="test-results" style="max-width:700px;margin:2em auto 0 auto;padding:1em;background:#fff;border-radius:4px;box-shadow:0 1px 3px rgba(0,0,0,0.07);font-family:monospace;"></div>
+    <script type="text/babel">
+function runFeedReaderTests() {
+  const results = [];
+  function assert(condition, description) {
+    results.push({ pass: !!condition, description });
+  }
+
+  // Test 1: allFeeds is defined and not empty
+  assert(Array.isArray(allFeeds) && allFeeds.length > 0, "allFeeds is defined and not empty");
+
+  // Test 2: allFeeds URLs are defined and not empty
+  allFeeds.forEach((feed, i) => {
+    assert(feed.url && typeof feed.url === "string" && feed.url.length > 0, `Feed ${i + 1} has a valid URL`);
+  });
+
+  // Test 3: allFeeds names are defined and not empty
+  allFeeds.forEach((feed, i) => {
+    assert(feed.name && typeof feed.name === "string" && feed.name.length > 0, `Feed ${i + 1} has a valid name`);
+  });
+
+  // Test 4: Menu is hidden by default
+  const menu = document.querySelector('.slide-menu');
+  assert(menu && !menu.classList.contains('open'), "Menu is hidden by default");
+
+  // Test 5: Menu toggles visibility when icon is clicked
+  const menuIcon = document.querySelector('.menu-icon-link');
+  if (menuIcon && menu) {
+    menuIcon.click();
+    assert(menu.classList.contains('open'), "Menu shows when menu icon is clicked");
+    menuIcon.click();
+    assert(!menu.classList.contains('open'), "Menu hides when menu icon is clicked again");
+  } else {
+    assert(false, "Menu icon and menu exist in DOM");
+  }
+
+  // Test 6: Feed loads entries
+  const feedLinks = document.querySelectorAll('.entry-link');
+  assert(feedLinks.length > 0, "Feed loads at least one entry");
+
+  // Test 7: Feed changes when a new feed is selected
+  // Only run if there are at least 2 feeds
+  if (allFeeds.length > 1) {
+    const prevFirstTitle = feedLinks[0]?.querySelector('h2')?.textContent || "";
+    // Simulate selecting the second feed
+    const menuLinks = document.querySelectorAll('.slide-menu a');
+    if (menuLinks.length > 1) {
+      menuLinks[1].click();
+      setTimeout(() => {
+        const newFeedLinks = document.querySelectorAll('.entry-link');
+        const newFirstTitle = newFeedLinks[0]?.querySelector('h2')?.textContent || "";
+        assert(prevFirstTitle !== newFirstTitle, "Feed content changes when a new feed is loaded");
+        displayTestResults(results);
+      }, 1500); // Wait for feed to load
+      return;
+    } else {
+      assert(false, "Multiple feeds available for switching");
+    }
+  }
+
+  displayTestResults(results);
+}
+
+function displayTestResults(results) {
+  const container = document.getElementById('test-results');
+  const passed = results.filter(r => r.pass).length;
+  const total = results.length;
+  container.innerHTML = `
+    <h2 style="color:#222;">FeedReader React Tests</h2>
+    <ul style="padding-left:1em;">
+      ${results.map(r =>
+        `<li style="color:${r.pass ? 'green' : 'red'}">${r.pass ? '✔' : '✖'} ${r.description}</li>`
+      ).join('')}
+    </ul>
+    <div style="font-weight:bold;">Passed: ${passed} / ${total}</div>
+  `;
+}
+
+// Wait for React to render, then run tests
+setTimeout(runFeedReaderTests, 2000);
+</script>
   </body>
 </html>
